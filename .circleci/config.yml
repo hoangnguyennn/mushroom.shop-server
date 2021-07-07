@@ -32,9 +32,6 @@ jobs:
       - run:
           name: Run build
           command: yarn build
-      - run:
-          name: Run start
-          command: yarn start
 
 workflows:
   # Below is the definition of your workflow.
