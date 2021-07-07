@@ -1,0 +1,60 @@
+{
+	"users": [
+		{
+			"email": "admin@cdtn.com",
+			"passwordHashed": "123",
+			"fullName": "CDTN Admin",
+			"phone": "0123456789",
+			"userType": "ADMIN",
+			"isActivated": true
+		},
+		{
+			"email": "manager@cdtn.com",
+			"passwordHashed": "123",
+			"fullName": "CDTN Manager",
+			"phone": "0123456789",
+			"userType": "MANAGER",
+			"isActivated": true
+		},
+		{
+			"email": "customer@cdtn.com",
+			"passwordHashed": "123",
+			"fullName": "CDTN Customer",
+			"phone": "0123456789",
+			"userType": "CUSTOMER",
+			"isActivated": true
+		}
+	],
+	"paymentMethods": [
+		{
+			"name": "Thanh toán bằng tiền mặt",
+			"imageUrl": "https://www.coolmate.me/images/momo-icon.png"
+		}
+	],
+	"products": [
+		{
+			"name": "Nấm bào ngư tươi",
+			"price": "15000",
+			"unit": "250 gram",
+			"description": "Đây là mô tả chi tiết của nấm bào ngư tươi",
+			"imagesUrl": "https://res.cloudinary.com/hoangnguyennn/image/upload/v1621465858/yzzutbi4htoulq6zkbwb.png",
+			"status": "SELLING"
+		},
+		{
+			"name": "Nấm linh chi tươi",
+			"price": "300000",
+			"unit": "kg",
+			"description": "Đây là mô tả chi tiết của nấm linh chi tươi",
+			"imagesUrl": "https://res.cloudinary.com/hoangnguyennn/image/upload/v1621465858/yzzutbi4htoulq6zkbwb.png",
+			"status": "SELLING"
+		},
+		{
+			"name": "Bào tử linh chi",
+			"price": "15000",
+			"unit": "hộp",
+			"description": "Đây là mô tả chi tiết của bào tử linh chi",
+			"imagesUrl": "https://res.cloudinary.com/hoangnguyennn/image/upload/v1621465858/yzzutbi4htoulq6zkbwb.png",
+			"status": "SELLING"
+		}
+	]
+}
