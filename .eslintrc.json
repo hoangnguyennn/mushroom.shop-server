@@ -15,8 +15,8 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "no-mixed-operators": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "arrow-parens": "off"
   }
 }
