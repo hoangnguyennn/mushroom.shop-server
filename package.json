@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "rm -rf dist && tsc",
-    "start": "NODE_ENV=production node dist/app.js",
+    "start:prod": "NODE_ENV=production node dist/app.js",
+    "start": "yarn build && yarn start:prod",
     "init-data": "ts-node src/helpers/initData.ts",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "yarn lint --fix"
