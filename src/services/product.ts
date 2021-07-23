@@ -17,7 +17,7 @@ const create = async (product: IProductCreate): Promise<IProduct> => {
     status: product.status,
     imagesId: product.imagesId,
     categoryId: product.categoryId,
-    longDescription: product.longDescription
+    longDescription: product.longDescription,
   });
 
   const productCreated = await ProductModel.create(productLint);
@@ -30,7 +30,7 @@ const get = async (
   skip?: number,
   limit?: number
 ): Promise<IProduct[]> => {
-  const query = ProductModel.find(filter);
+  const query = ProductModel.find(filter).sort({ _id: -1 });
 
   if (skip) {
     query.skip(skip);
@@ -61,6 +61,7 @@ const getById = async (id: string | Types.ObjectId): Promise<IProduct> => {
 
 const getTrending = async (): Promise<IProduct[]> => {
   return ProductModel.find({ status: ProductStatus.SELLING })
+    .sort({ _id: -1 })
     .limit(8)
     .populate(productPopulate);
 };
@@ -74,7 +75,7 @@ const update = async (id: string, product: IProductCreate) => {
     status: product.status,
     imagesId: product.imagesId,
     categoryId: product.categoryId,
-    longDescription: product.longDescription
+    longDescription: product.longDescription,
   });
 
   const productUpdated = await ProductModel.findByIdAndUpdate(
@@ -114,5 +115,5 @@ export default {
   getById,
   getTrending,
   update,
-  updateStatus
+  updateStatus,
 };
