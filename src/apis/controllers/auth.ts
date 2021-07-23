@@ -13,6 +13,8 @@ import { success } from '../../helpers/commonResponse';
 import { UserType } from '../../interfaces/enums';
 import AuthService from '../../services/auth';
 import UserService from '../../services/user';
+import sendMail from '../../helpers/sendMail';
+import { subject, template } from '../../mailTemplate/verifyRegister';
 
 const getCurrentUser = async (req: Request, res: Response) => {
   const { userId } = res.locals;
@@ -49,6 +51,11 @@ const register = async (req: Request, res: Response) => {
   };
 
   const userCreated = await AuthService.register(userCreate);
+  sendMail({
+    email: userCreate.email,
+    subject: subject,
+    html: template(userCreate.fullName)
+  });
   return success(res, mapUserToResponse(userCreated));
 };
 
