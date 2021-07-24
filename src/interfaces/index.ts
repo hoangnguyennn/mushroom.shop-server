@@ -1,4 +1,9 @@
-import { UserType } from './enums';
+import { ProductStatus, UserType } from './enums';
+import { ICategory, IImage, IProductUnit } from './IDocument';
+
+interface IResponse {
+  id: string;
+}
 
 export interface ICategoryCreate {
   name: string;
@@ -6,8 +11,7 @@ export interface ICategoryCreate {
   slug: string;
 }
 
-export interface ICategoryResponse {
-  id: string;
+export interface ICategoryResponse extends IResponse {
   name: string;
   description: string;
   slug: string;
@@ -18,8 +22,7 @@ export interface IImageCreate {
   publicId: string;
 }
 
-export interface IImageResponse {
-  id: string;
+export interface IImageResponse extends IResponse {
   url: string;
   publicId: string;
 }
@@ -29,12 +32,44 @@ export interface IPayload {
   userType: string;
 }
 
+export interface IProductRequest {
+  name: string;
+  price: number;
+  unitId: string;
+  description: string;
+  status: ProductStatus;
+  imagesId: ({ id: string } | IImageCreate)[];
+  categoryId: string;
+  longDescription: string;
+}
+
+export interface IProductCreate {
+  name: string;
+  price: number;
+  unitId: string;
+  description: string;
+  status: ProductStatus;
+  imagesId: string[];
+  categoryId: string;
+  longDescription: string;
+}
+
+export interface IProductResponse extends IResponse {
+  name: string;
+  price: number;
+  description: string;
+  status: ProductStatus;
+  longDescription: string;
+  unit?: IProductUnit;
+  images?: IImage[];
+  category?: ICategory;
+}
+
 export interface IProductUnitCreate {
   name: string;
 }
 
-export interface IProductUnitResponse {
-  id: string;
+export interface IProductUnitResponse extends IResponse {
   name: string;
 }
 
@@ -60,8 +95,7 @@ export interface IUserCreate {
   isActivated?: boolean;
 }
 
-export interface IUserResponse {
-  id: string;
+export interface IUserResponse extends IResponse {
   email: string;
   fullName: string;
   phone: string;

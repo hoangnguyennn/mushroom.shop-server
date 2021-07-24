@@ -1,12 +1,14 @@
 import {
   ICategoryResponse,
   IImageResponse,
+  IProductResponse,
   IProductUnitResponse,
   IUserResponse
 } from '../interfaces';
 import {
   ICategory,
   IImage,
+  IProduct,
   IProductUnit,
   IUser
 } from '../interfaces/IDocument';
@@ -27,6 +29,20 @@ export const mapImageToResponse = (image: IImage): IImageResponse => {
     id: image._id,
     url: image.url,
     publicId: image.publicId
+  };
+};
+
+export const mapProductToResponse = (product: IProduct): IProductResponse => {
+  return {
+    id: product._id,
+    name: product.name,
+    price: product.price,
+    description: product.description,
+    status: product.status,
+    longDescription: product.longDescription,
+    unit: product.unit,
+    images: product.images,
+    category: product.category
   };
 };
 

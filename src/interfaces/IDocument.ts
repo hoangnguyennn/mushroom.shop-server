@@ -1,5 +1,5 @@
-import { Document } from 'mongoose';
-import { UserType } from './enums';
+import { Document, Types } from 'mongoose';
+import { ProductStatus, UserType } from './enums';
 
 export interface ICategory extends Document {
   name: string;
@@ -10,6 +10,22 @@ export interface ICategory extends Document {
 export interface IImage extends Document {
   url: string;
   publicId: string;
+}
+
+export interface IProduct extends Document {
+  name: string;
+  price: number;
+  unitId: Types.ObjectId;
+  description: string;
+  status: ProductStatus;
+  imagesId: Types.ObjectId[];
+  categoryId: Types.ObjectId;
+  longDescription: string;
+  nameNonUnicode: string;
+
+  unit?: IProductUnit;
+  images?: IImage[];
+  category?: ICategory;
 }
 
 export interface IProductUnit extends Document {

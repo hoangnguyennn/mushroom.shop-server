@@ -3,17 +3,16 @@ import { HttpError, COMMON_MESSAGE } from '../helpers/commonResponse';
 
 const create = async <T extends Document, D, N = any>(
   model: Model<T>,
-  mapper: ((doc: T) => N) | undefined,
+  mapper: (doc: T) => N,
   data: D
 ) => {
   const documentCreated = await model.create(data);
-  if (mapper) return mapper(documentCreated);
-  return documentCreated;
+  return mapper(documentCreated);
 };
 
 const getList = async <T extends Document, N = any>(
   model: Model<T>,
-  mapper: ((doc: T) => N) | undefined,
+  mapper: (doc: T) => N,
   {
     limit,
     skip,
@@ -35,13 +34,12 @@ const getList = async <T extends Document, N = any>(
   }
 
   const documents = await query.exec();
-  if (mapper) return documents.map(mapper);
-  return documents;
+  return documents.map(mapper);
 };
 
 const getById = async <T extends Document, N = any>(
   model: Model<T>,
-  mapper: ((doc: T) => N) | undefined,
+  mapper: (doc: T) => N,
   id: string
 ) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
@@ -51,13 +49,12 @@ const getById = async <T extends Document, N = any>(
     throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
   }
 
-  if (mapper) return mapper(document);
-  return document;
+  return mapper(document);
 };
 
 const update = async <T extends Document, D, N = any>(
   model: Model<T>,
-  mapper: ((doc: T) => N) | undefined,
+  mapper: (doc: T) => N,
   id: string,
   data: D
 ) => {
@@ -70,8 +67,7 @@ const update = async <T extends Document, D, N = any>(
     throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
   }
 
-  if (mapper) return mapper(documentUpdated);
-  return documentUpdated;
+  return mapper(documentUpdated);
 };
 
 export { create, getList, getById, update };
