@@ -28,7 +28,7 @@ const getById = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const productUnitData = req.body;
+  const productUnitData: IProductUnitCreate = req.body;
   const productUnit = await ProductUnitService.update(id, productUnitData);
   return success(res, productUnit);
 };

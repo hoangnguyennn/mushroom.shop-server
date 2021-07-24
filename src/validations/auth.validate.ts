@@ -1,14 +1,15 @@
 import { celebrate, Joi, Segments } from 'celebrate';
+import { ISignIn, ISignUp } from '../interfaces';
 
 const signIn = celebrate({
-  [Segments.BODY]: Joi.object().keys({
+  [Segments.BODY]: Joi.object<ISignIn>().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required()
   })
 });
 
 const signUp = celebrate({
-  [Segments.BODY]: Joi.object().keys({
+  [Segments.BODY]: Joi.object<ISignUp>().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     fullName: Joi.string().required(),
