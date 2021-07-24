@@ -1,71 +1,37 @@
 import { FilterQuery } from 'mongoose';
-import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 import { mapCategoryToResponse } from '../helpers/mappingResponse';
 import { ICategoryCreate } from '../interfaces';
+import { ICategory } from '../interfaces/IDocument';
 import CategoryModel from '../models/category.model';
+import { create, getList, getById, update } from './base.service';
 
-const create = async (categoryData: ICategoryCreate) => {
-  const category: ICategoryCreate = {
-    name: categoryData.name,
-    description: categoryData.description,
-    slug: categoryData.slug
-  };
-  const categoryCreated = await CategoryModel.create(category);
-  return mapCategoryToResponse(categoryCreated);
+const CategoryService = {
+  create: async (categoryData: ICategoryCreate) => {
+    const category: ICategoryCreate = {
+      name: categoryData.name,
+      description: categoryData.description,
+      slug: categoryData.slug
+    };
+    return create(CategoryModel, mapCategoryToResponse, category);
+  },
+  getList: async (query: {
+    limit?: number;
+    skip?: number;
+    filterQuery?: FilterQuery<ICategory>;
+  }) => {
+    return getList(CategoryModel, mapCategoryToResponse, query);
+  },
+  getById: async (id: string) => {
+    return getById(CategoryModel, mapCategoryToResponse, id);
+  },
+  update: async (id: string, categoryData: ICategoryCreate) => {
+    const category: ICategoryCreate = {
+      name: categoryData.name,
+      description: categoryData.description,
+      slug: categoryData.slug
+    };
+    return update(CategoryModel, mapCategoryToResponse, id, category);
+  }
 };
 
-const getList = async <T>({
-  limit,
-  skip,
-  filterQuery
-}: {
-  limit?: number;
-  skip?: number;
-  filterQuery?: FilterQuery<T>;
-}) => {
-  const query = filterQuery
-    ? CategoryModel.find(filterQuery)
-    : CategoryModel.find();
-
-  if (skip) {
-    query.skip(skip);
-  }
-
-  if (limit) {
-    query.limit(limit);
-  }
-
-  const categories = await query.exec();
-  return categories.map(mapCategoryToResponse);
-};
-
-const getById = async (id: string) => {
-  const category = await CategoryModel.findOne({ _id: id });
-
-  if (!category) {
-    throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
-  }
-
-  return mapCategoryToResponse(category);
-};
-
-const update = async (id: string, categoryData: ICategoryCreate) => {
-  const category: ICategoryCreate = {
-    name: categoryData.name,
-    description: categoryData.description,
-    slug: categoryData.slug
-  };
-  const categoryUpdated = await CategoryModel.findOneAndUpdate(
-    { _id: id },
-    category,
-    { new: true }
-  );
-
-  if (!categoryUpdated) {
-    throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
-  }
-
-  return mapCategoryToResponse(categoryUpdated);
-};
-
-export default { create, getList, getById, update };
+export default CategoryService;
