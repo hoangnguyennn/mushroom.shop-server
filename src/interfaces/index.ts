@@ -13,6 +13,17 @@ export interface ICategoryResponse {
   slug: string;
 }
 
+export interface IImageCreate {
+  url: string;
+  publicId: string;
+}
+
+export interface IImageResponse {
+  id: string;
+  url: string;
+  publicId: string;
+}
+
 export interface IPayload {
   userId: string;
   userType: string;

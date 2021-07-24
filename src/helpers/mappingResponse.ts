@@ -1,9 +1,15 @@
 import {
   ICategoryResponse,
+  IImageResponse,
   IProductUnitResponse,
   IUserResponse
 } from '../interfaces';
-import { ICategory, IProductUnit, IUser } from '../interfaces/IDocument';
+import {
+  ICategory,
+  IImage,
+  IProductUnit,
+  IUser
+} from '../interfaces/IDocument';
 
 export const mapCategoryToResponse = (
   category: ICategory
@@ -13,6 +19,14 @@ export const mapCategoryToResponse = (
     name: category.name,
     description: category.description,
     slug: category.slug
+  };
+};
+
+export const mapImageToResponse = (image: IImage): IImageResponse => {
+  return {
+    id: image._id,
+    url: image.url,
+    publicId: image.publicId
   };
 };
 

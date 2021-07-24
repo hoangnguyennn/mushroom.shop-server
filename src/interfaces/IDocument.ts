@@ -7,6 +7,11 @@ export interface ICategory extends Document {
   slug: string;
 }
 
+export interface IImage extends Document {
+  url: string;
+  publicId: string;
+}
+
 export interface IProductUnit extends Document {
   name: string;
 }
