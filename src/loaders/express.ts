@@ -1,33 +1,25 @@
-import { Application, json, urlencoded } from 'express';
-import { errors } from 'celebrate';
+import express, { Application } from 'express';
 import cors from 'cors';
 
-import routers from '../apis/routes';
-import { handleError, notFound } from '../helpers/commonResponse';
-import logRequest from '../helpers/logRequest';
+import apiRoutes from '../apis/routes';
+import { notFound, handleError } from '../helpers/commonResponse';
+import logger from '../helpers/logger';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
 export default async (app: Application) => {
-  // load middlewares
   app.use(cors());
-  app.use(json());
-  app.use(urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
+  isDev && app.use(logger());
 
   app.get('/', (req, res) => {
     return res.send('Hello');
   });
 
-  isDev && app.use(logRequest());
+  app.use(apiRoutes);
 
-  // load routes
-  app.use(routers);
-
-  // load error handler
-  // celebrate error handler
-  app.use(errors());
-
-  // not found error handler
   app.use((req, res, next) => notFound(next));
 
   app.use(handleError);

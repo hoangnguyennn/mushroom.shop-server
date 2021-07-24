@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
-import { IUser } from '../interfaces/IDocuments';
 import { CollectionName, UserType } from '../interfaces/enums';
+import { IUser } from '../interfaces/IDocument';
 
 const userSchema = new Schema<IUser>({
   email: {
@@ -34,7 +34,7 @@ const userSchema = new Schema<IUser>({
   }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   const userType = this.userType || UserType.MANAGER;
   this.isActivated = userType === UserType.CUSTOMER;
   next();

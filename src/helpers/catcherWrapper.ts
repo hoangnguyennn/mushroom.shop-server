@@ -1,15 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { internalServerError } from './commonResponse';
 
-interface AsyncFunction {
-  (req: Request, res: Response, next: NextFunction): Promise<any>;
-}
+type AsyncController = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<any>;
 
-export default (fn: AsyncFunction) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    fn(req, res, next).catch((err: Error) => {
-      console.log(err.stack ? err.stack : err);
-      return internalServerError(next, err.message);
+export default (controller: AsyncController) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    return controller(req, res, next).catch(error => {
+      return internalServerError(next, error);
     });
   };
 };

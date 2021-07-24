@@ -1,11 +1,15 @@
 import { model, Schema } from 'mongoose';
 import { CollectionName } from '../interfaces/enums';
-import { ICategory } from '../interfaces/IDocuments';
+import { ICategory } from '../interfaces/IDocument';
 
 const categorySchema = new Schema<ICategory>({
   name: {
     type: String,
     required: true,
+    unique: true
+  },
+  description: {
+    type: String,
     unique: true
   },
   slug: {

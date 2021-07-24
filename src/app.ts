@@ -3,13 +3,13 @@ import express from 'express';
 import configs from './configs';
 import loaders from './loaders';
 
-const startServer = async () => {
+const startup = async () => {
   const app = express();
-  const port = configs.port || 5000;
+  const port = configs.port;
 
   await loaders(app);
 
-  app.listen(port, () => console.log(`App was running at port ${port}`));
+  app.listen(port, () => console.log(`App was running on port ${port}`));
 };
 
-startServer();
+startup();
