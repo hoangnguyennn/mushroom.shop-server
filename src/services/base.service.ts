@@ -4,9 +4,14 @@ import { HttpError, COMMON_MESSAGE } from '../helpers/commonResponse';
 const create = async <T extends Document, D, N = any>(
   model: Model<T>,
   mapper: (doc: T) => N,
-  data: D
+  data: D,
+  populate?: string
 ) => {
-  const documentCreated = await model.create(data);
+  let documentCreated = await model.create(data);
+  if (populate) {
+    documentCreated = await model.populate(documentCreated, populate);
+  }
+
   return mapper(documentCreated);
 };
 
@@ -21,7 +26,8 @@ const getList = async <T extends Document, N = any>(
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<T>;
-  }
+  },
+  populate?: string
 ) => {
   const query = filterQuery ? model.find(filterQuery) : model.find();
 
@@ -33,6 +39,10 @@ const getList = async <T extends Document, N = any>(
     query.limit(limit);
   }
 
+  if (populate) {
+    query.populate(populate);
+  }
+
   const documents = await query.exec();
   return documents.map(mapper);
 };
@@ -40,11 +50,17 @@ const getList = async <T extends Document, N = any>(
 const getById = async <T extends Document, N = any>(
   model: Model<T>,
   mapper: (doc: T) => N,
-  id: string
+  id: string,
+  populate?: string
 ) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
-  const document = await model.findOne(filterQuery);
+  const query = model.findOne(filterQuery);
 
+  if (populate) {
+    query.populate(populate);
+  }
+
+  const document = await query.exec();
   if (!document) {
     throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
   }
@@ -56,13 +72,19 @@ const update = async <T extends Document, D, N = any>(
   model: Model<T>,
   mapper: (doc: T) => N,
   id: string,
-  data: D
+  data: D,
+  populate?: string
 ) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
-  const documentUpdated = await model.findOneAndUpdate(filterQuery, data, {
+  const query = model.findOneAndUpdate(filterQuery, data, {
     new: true
   });
 
+  if (populate) {
+    query.populate(populate);
+  }
+
+  const documentUpdated = await query.exec();
   if (!documentUpdated) {
     throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
   }

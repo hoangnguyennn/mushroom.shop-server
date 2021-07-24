@@ -40,9 +40,9 @@ export const mapProductToResponse = (product: IProduct): IProductResponse => {
     description: product.description,
     status: product.status,
     longDescription: product.longDescription,
-    unit: product.unit,
-    images: product.images,
-    category: product.category
+    unit: product.unit && mapProductUnitToResponse(product.unit),
+    images: product.images && product.images.map(mapImageToResponse),
+    category: product.category && mapCategoryToResponse(product.category)
   };
 };
 

@@ -1,5 +1,4 @@
 import { ProductStatus, UserType } from './enums';
-import { ICategory, IImage, IProductUnit } from './IDocument';
 
 interface IResponse {
   id: string;
@@ -60,9 +59,9 @@ export interface IProductResponse extends IResponse {
   description: string;
   status: ProductStatus;
   longDescription: string;
-  unit?: IProductUnit;
-  images?: IImage[];
-  category?: ICategory;
+  unit?: IProductUnitResponse;
+  images?: IImageResponse[];
+  category?: ICategoryResponse;
 }
 
 export interface IProductUnitCreate {

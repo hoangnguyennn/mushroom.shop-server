@@ -5,6 +5,7 @@ import { IProduct } from '../interfaces/IDocument';
 import { mapProductToResponse } from '../helpers/mappingResponse';
 import ImageService from './image.service';
 import ProductModel from '../models/product.model';
+import { productPopulate } from '../helpers/mongoPopulate';
 
 const ProductService = {
   create: async (productData: IProductRequest) => {
@@ -35,17 +36,17 @@ const ProductService = {
       categoryId: productData.categoryId,
       longDescription: productData.longDescription
     };
-    return create(ProductModel, mapProductToResponse, product);
+    return create(ProductModel, mapProductToResponse, product, productPopulate);
   },
   getList: async (query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<IProduct>;
   }) => {
-    return getList(ProductModel, mapProductToResponse, query);
+    return getList(ProductModel, mapProductToResponse, query, productPopulate);
   },
   getById: async (id: string) => {
-    return getById(ProductModel, mapProductToResponse, id);
+    return getById(ProductModel, mapProductToResponse, id, productPopulate);
   },
   update: async (id: string, productData: IProductRequest) => {
     const oldImages: string[] = [];
@@ -75,7 +76,13 @@ const ProductService = {
       categoryId: productData.categoryId,
       longDescription: productData.longDescription
     };
-    return update(ProductModel, mapProductToResponse, id, product);
+    return update(
+      ProductModel,
+      mapProductToResponse,
+      id,
+      product,
+      productPopulate
+    );
   }
 };
 
