@@ -7,6 +7,10 @@ export interface ICategory extends Document {
   slug: string;
 }
 
+export interface IProductUnit extends Document {
+  name: string;
+}
+
 export interface IUser extends Document {
   email: string;
   passwordHashed: string;

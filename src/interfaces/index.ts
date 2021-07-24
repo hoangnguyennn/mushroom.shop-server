@@ -18,6 +18,15 @@ export interface IPayload {
   userType: string;
 }
 
+export interface IProductUnitCreate {
+  name: string;
+}
+
+export interface IProductUnitResponse {
+  id: string;
+  name: string;
+}
+
 export interface ISignIn {
   email: string;
   password: string;

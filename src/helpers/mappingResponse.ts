@@ -1,5 +1,9 @@
-import { ICategoryResponse, IUserResponse } from '../interfaces';
-import { ICategory, IUser } from '../interfaces/IDocument';
+import {
+  ICategoryResponse,
+  IProductUnitResponse,
+  IUserResponse
+} from '../interfaces';
+import { ICategory, IProductUnit, IUser } from '../interfaces/IDocument';
 
 export const mapCategoryToResponse = (
   category: ICategory
@@ -9,6 +13,15 @@ export const mapCategoryToResponse = (
     name: category.name,
     description: category.description,
     slug: category.slug
+  };
+};
+
+export const mapProductUnitToResponse = (
+  productUnit: IProductUnit
+): IProductUnitResponse => {
+  return {
+    id: productUnit._id,
+    name: productUnit.name
   };
 };
 

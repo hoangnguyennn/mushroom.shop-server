@@ -1,5 +1,6 @@
 export enum CollectionName {
   CATEGORY = 'categories',
+  PRODUCT_UNIT = 'productUnits',
   USER = 'users'
 }
 
