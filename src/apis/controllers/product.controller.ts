@@ -33,4 +33,9 @@ const update = async (req: Request, res: Response) => {
   return success(res, product);
 };
 
-export default { create, getList, getById, update };
+const getTrendingProducts = async (req: Request, res: Response) => {
+  const products = await ProductService.getTrendingProducts();
+  return success(res, products);
+};
+
+export default { create, getList, getById, update, getTrendingProducts };

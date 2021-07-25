@@ -98,6 +98,13 @@ const ProductService = {
       data: product,
       populate: productPopulate
     });
+  },
+  getTrendingProducts: async () => {
+    const products = await ProductModel.find()
+      .sort({ _id: -1 })
+      .limit(8)
+      .populate(productPopulate);
+    return products.map(mapProductToResponse);
   }
 };
 

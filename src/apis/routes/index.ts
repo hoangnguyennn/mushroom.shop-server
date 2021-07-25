@@ -8,8 +8,11 @@ import paymentMethodRoute from './paymentMethod.route';
 import productRoute from './product.route';
 import productUnitRoute from './productUnit.route';
 import uploadRoute from './upload.route';
+import AuthMiddleware from '../../middlewares/auth.middleware';
 
 const router = Router();
+
+router.use(AuthMiddleware.decodeToken);
 
 router.use('/auth', authRoute);
 router.use('/categories', categoryRoute);

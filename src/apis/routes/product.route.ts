@@ -18,6 +18,8 @@ router.post(
   catcherWrapper(ProductController.create)
 );
 
+router.get('/trendings', catcherWrapper(ProductController.getTrendingProducts));
+
 router.get(
   '/:id',
   ProductValidator.getById,

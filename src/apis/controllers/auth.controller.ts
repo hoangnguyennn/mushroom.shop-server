@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { ISignIn, ISignUp } from '../../interfaces';
-import { success } from '../../helpers/commonResponse';
+import { success, unauthorized } from '../../helpers/commonResponse';
 import AuthService from '../../services/auth.service';
+import UserService from '../../services/user.service';
 
 const signUp = async (req: Request, res: Response) => {
   const signUpData: ISignUp = req.body;
@@ -16,7 +17,19 @@ const signIn = async (req: Request, res: Response) => {
   return success(res, { token, user });
 };
 
+const currentUser = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    return unauthorized(next);
+  }
+
+  const user = await UserService.getById(userId);
+  return success(res, user);
+};
+
 export default {
   signUp,
-  signIn
+  signIn,
+  currentUser
 };
