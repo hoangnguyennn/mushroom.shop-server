@@ -36,17 +36,32 @@ const ProductService = {
       categoryId: productData.categoryId,
       longDescription: productData.longDescription
     };
-    return create(ProductModel, mapProductToResponse, product, productPopulate);
+    return create({
+      model: ProductModel,
+      mapper: mapProductToResponse,
+      data: product,
+      populate: productPopulate
+    });
   },
   getList: async (query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<IProduct>;
   }) => {
-    return getList(ProductModel, mapProductToResponse, query, productPopulate);
+    return getList({
+      model: ProductModel,
+      mapper: mapProductToResponse,
+      query,
+      populate: productPopulate
+    });
   },
   getById: async (id: string) => {
-    return getById(ProductModel, mapProductToResponse, id, productPopulate);
+    return getById({
+      model: ProductModel,
+      mapper: mapProductToResponse,
+      id,
+      populate: productPopulate
+    });
   },
   update: async (id: string, productData: IProductRequest) => {
     const oldImages: string[] = [];
@@ -76,13 +91,13 @@ const ProductService = {
       categoryId: productData.categoryId,
       longDescription: productData.longDescription
     };
-    return update(
-      ProductModel,
-      mapProductToResponse,
+    return update({
+      model: ProductModel,
+      mapper: mapProductToResponse,
       id,
-      product,
-      productPopulate
-    );
+      data: product,
+      populate: productPopulate
+    });
   }
 };
 

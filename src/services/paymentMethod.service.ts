@@ -10,32 +10,40 @@ const PaymentMethodService = {
     const paymentMethod: IPaymentMethodCreate = {
       name: paymentMethodData.name
     };
-    return create(
-      PaymentMethodModel,
-      mapPaymentMethodToResponse,
-      paymentMethod
-    );
+    return create({
+      model: PaymentMethodModel,
+      mapper: mapPaymentMethodToResponse,
+      data: paymentMethod
+    });
   },
   getList: async (query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<IPaymentMethod>;
   }) => {
-    return getList(PaymentMethodModel, mapPaymentMethodToResponse, query);
+    return getList({
+      model: PaymentMethodModel,
+      mapper: mapPaymentMethodToResponse,
+      query
+    });
   },
   getById: async (id: string) => {
-    return getById(PaymentMethodModel, mapPaymentMethodToResponse, id);
+    return getById({
+      model: PaymentMethodModel,
+      mapper: mapPaymentMethodToResponse,
+      id
+    });
   },
   update: async (id: string, paymentMethodData: IPaymentMethodCreate) => {
     const paymentMethod: IPaymentMethodCreate = {
       name: paymentMethodData.name
     };
-    return update(
-      PaymentMethodModel,
-      mapPaymentMethodToResponse,
+    return update({
+      model: PaymentMethodModel,
+      mapper: mapPaymentMethodToResponse,
       id,
-      paymentMethod
-    );
+      data: paymentMethod
+    });
   }
 };
 

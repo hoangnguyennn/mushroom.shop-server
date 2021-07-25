@@ -12,17 +12,29 @@ const CategoryService = {
       description: categoryData.description,
       slug: categoryData.slug
     };
-    return create(CategoryModel, mapCategoryToResponse, category);
+    return create({
+      model: CategoryModel,
+      mapper: mapCategoryToResponse,
+      data: category
+    });
   },
   getList: async (query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<ICategory>;
   }) => {
-    return getList(CategoryModel, mapCategoryToResponse, query);
+    return getList({
+      model: CategoryModel,
+      mapper: mapCategoryToResponse,
+      query
+    });
   },
   getById: async (id: string) => {
-    return getById(CategoryModel, mapCategoryToResponse, id);
+    return getById({
+      model: CategoryModel,
+      mapper: mapCategoryToResponse,
+      id
+    });
   },
   update: async (id: string, categoryData: ICategoryCreate) => {
     const category: ICategoryCreate = {
@@ -30,7 +42,12 @@ const CategoryService = {
       description: categoryData.description,
       slug: categoryData.slug
     };
-    return update(CategoryModel, mapCategoryToResponse, id, category);
+    return update({
+      model: CategoryModel,
+      mapper: mapCategoryToResponse,
+      id,
+      data: category
+    });
   }
 };
 

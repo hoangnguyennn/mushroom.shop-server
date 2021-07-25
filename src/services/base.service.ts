@@ -2,12 +2,17 @@ import { FilterQuery, Model, Document } from 'mongoose';
 import { HttpError, COMMON_MESSAGE } from '../helpers/commonResponse';
 import { IPopulateOptions } from '../interfaces';
 
-const create = async <T extends Document, D, N>(
-  model: Model<T>,
-  mapper: (doc: T) => N,
-  data: D,
-  populate?: IPopulateOptions
-) => {
+const create = async <T extends Document, D, N>({
+  model,
+  mapper,
+  data,
+  populate
+}: {
+  model: Model<T>;
+  mapper: (doc: T) => N;
+  data: D;
+  populate?: IPopulateOptions;
+}) => {
   let documentCreated = await model.create(data);
   if (populate) {
     documentCreated = await model.populate(documentCreated, populate);
@@ -16,44 +21,51 @@ const create = async <T extends Document, D, N>(
   return mapper(documentCreated);
 };
 
-const getList = async <T extends Document, N>(
-  model: Model<T>,
-  mapper: (doc: T) => N,
-  {
-    limit,
-    skip,
-    filterQuery
-  }: {
+const getList = async <T extends Document, N>({
+  model,
+  mapper,
+  query,
+  populate
+}: {
+  model: Model<T>;
+  mapper: (doc: T) => N;
+  query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<T>;
-  },
-  populate?: IPopulateOptions
-) => {
-  const query = filterQuery ? model.find(filterQuery) : model.find();
+  };
+  populate?: IPopulateOptions;
+}) => {
+  const { filterQuery, skip, limit } = query;
+  const mongoQuery = filterQuery ? model.find(filterQuery) : model.find();
 
   if (skip) {
-    query.skip(skip);
+    mongoQuery.skip(skip);
   }
 
   if (limit) {
-    query.limit(limit);
+    mongoQuery.limit(limit);
   }
 
   if (populate) {
-    query.populate(populate);
+    mongoQuery.populate(populate);
   }
 
-  const documents = await query.exec();
+  const documents = await mongoQuery.exec();
   return documents.map(mapper);
 };
 
-const getById = async <T extends Document, N>(
-  model: Model<T>,
-  mapper: (doc: T) => N,
-  id: string,
-  populate?: IPopulateOptions
-) => {
+const getById = async <T extends Document, N>({
+  model,
+  mapper,
+  id,
+  populate
+}: {
+  model: Model<T>;
+  mapper: (doc: T) => N;
+  id: string;
+  populate?: IPopulateOptions;
+}) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
   const query = model.findOne(filterQuery);
 
@@ -69,13 +81,19 @@ const getById = async <T extends Document, N>(
   return mapper(document);
 };
 
-const update = async <T extends Document, D, N>(
-  model: Model<T>,
-  mapper: (doc: T) => N,
-  id: string,
-  data: D,
-  populate?: IPopulateOptions
-) => {
+const update = async <T extends Document, D, N>({
+  model,
+  mapper,
+  id,
+  data,
+  populate
+}: {
+  model: Model<T>;
+  mapper: (doc: T) => N;
+  id: string;
+  data: D;
+  populate?: IPopulateOptions;
+}) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
   const query = model.findOneAndUpdate(filterQuery, data, {
     new: true

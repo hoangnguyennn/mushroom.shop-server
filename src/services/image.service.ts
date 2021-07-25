@@ -11,17 +11,29 @@ const ImageService = {
       url: imageData.url,
       publicId: imageData.publicId
     };
-    return create(ImageModel, mapImageToResponse, image);
+    return create({
+      model: ImageModel,
+      mapper: mapImageToResponse,
+      data: image
+    });
   },
   getList: async (query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<IImage>;
   }) => {
-    return getList(ImageModel, mapImageToResponse, query);
+    return getList({
+      model: ImageModel,
+      mapper: mapImageToResponse,
+      query
+    });
   },
   getById: async (id: string) => {
-    return getById(ImageModel, mapImageToResponse, id);
+    return getById({
+      model: ImageModel,
+      mapper: mapImageToResponse,
+      id
+    });
   }
 };
 

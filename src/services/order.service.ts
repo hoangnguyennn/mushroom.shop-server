@@ -36,17 +36,32 @@ const OrderService = {
       itemsId: orderItems.map(item => item._id)
     };
 
-    return create(OrderModel, mapOrderToResponse, order, orderPopulate);
+    return create({
+      model: OrderModel,
+      mapper: mapOrderToResponse,
+      data: order,
+      populate: orderPopulate
+    });
   },
   getList: async (query: {
     limit?: number;
     skip?: number;
     filterQuery?: FilterQuery<IOrder>;
   }) => {
-    return getList(OrderModel, mapOrderToResponse, query, orderPopulate);
+    return getList({
+      model: OrderModel,
+      mapper: mapOrderToResponse,
+      query,
+      populate: orderPopulate
+    });
   },
   getById: async (id: string) => {
-    return getById(OrderModel, mapOrderToResponse, id, orderPopulate);
+    return getById({
+      model: OrderModel,
+      mapper: mapOrderToResponse,
+      id,
+      populate: orderPopulate
+    });
   }
 };
 
