@@ -8,6 +8,7 @@ import { OrderStatus, PaymentStatus } from '../interfaces/enums';
 import OrderItemModel from '../models/orderItem.model';
 import OrderModel from '../models/order.model';
 import ProductService from './product.service';
+import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 
 const OrderService = {
   create: async (orderData: IOrderRequest, userId?: string) => {
@@ -62,6 +63,19 @@ const OrderService = {
       id,
       populate: orderPopulate
     });
+  },
+  payOrder: async (id: string) => {
+    const order = await OrderModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { paymentStatus: PaymentStatus.PAID } },
+      { new: true }
+    ).populate(orderPopulate);
+
+    if (!order) {
+      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+    }
+
+    return mapOrderToResponse(order);
   }
 };
 

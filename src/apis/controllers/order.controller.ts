@@ -27,4 +27,10 @@ const getById = async (req: Request, res: Response) => {
   return success(res, order);
 };
 
-export default { create, getList, getById };
+const payOrder = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const order = await OrderService.payOrder(id);
+  return success(res, order);
+};
+
+export default { create, getList, getById, payOrder };

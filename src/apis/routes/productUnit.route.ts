@@ -1,5 +1,8 @@
 import { Router } from 'express';
+
 import catcherWrapper from '../../helpers/catcherWrapper';
+import { UserType } from '../../interfaces/enums';
+import AuthMiddleware from '../../middlewares/auth.middleware';
 import ProductUnitValidator from '../../validations/productUnit.validate';
 import ProductUnitController from '../controllers/productUnit.controller';
 
@@ -13,6 +16,8 @@ router.get(
 
 router.post(
   '/',
+  AuthMiddleware.checkAuth,
+  AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
   ProductUnitValidator.create,
   catcherWrapper(ProductUnitController.create)
 );
@@ -25,6 +30,8 @@ router.get(
 
 router.put(
   '/:id',
+  AuthMiddleware.checkAuth,
+  AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
   ProductUnitValidator.update,
   catcherWrapper(ProductUnitController.update)
 );

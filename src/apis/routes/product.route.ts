@@ -3,6 +3,8 @@ import { Router } from 'express';
 import catcherWrapper from '../../helpers/catcherWrapper';
 import ProductController from '../controllers/product.controller';
 import ProductValidator from '../../validations/product.validate';
+import { UserType } from '../../interfaces/enums';
+import AuthMiddleware from '../../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -14,6 +16,8 @@ router.get(
 
 router.post(
   '/',
+  AuthMiddleware.checkAuth,
+  AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
   ProductValidator.create,
   catcherWrapper(ProductController.create)
 );
@@ -28,6 +32,8 @@ router.get(
 
 router.put(
   '/:id',
+  AuthMiddleware.checkAuth,
+  AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
   ProductValidator.update,
   catcherWrapper(ProductController.update)
 );
