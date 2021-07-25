@@ -1,4 +1,5 @@
 import { FilterQuery } from 'mongoose';
+import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 import { mapCategoryToResponse } from '../helpers/mappingResponse';
 import { ICategoryCreate } from '../interfaces';
 import { ICategory } from '../interfaces/IDocument';
@@ -48,6 +49,15 @@ const CategoryService = {
       id,
       data: category
     });
+  },
+  getBySlug: async (slug: string) => {
+    const category = await CategoryModel.findOne({ slug });
+
+    if (!category) {
+      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+    }
+
+    return mapCategoryToResponse(category);
   }
 };
 

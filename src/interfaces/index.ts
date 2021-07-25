@@ -89,7 +89,7 @@ export interface IOrderItemProductResponse extends IResponse {
 
 export interface IPayload {
   userId: string;
-  userType: string;
+  userType: UserType;
 }
 
 export interface IPaymentMethodCreate {

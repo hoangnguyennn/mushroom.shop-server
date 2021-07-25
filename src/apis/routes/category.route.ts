@@ -22,6 +22,8 @@ router.post(
   catcherWrapper(CategoryController.create)
 );
 
+router.get('/by/slug/:slug', catcherWrapper(CategoryController.getBySlug));
+
 router.get(
   '/:id',
   CategoryValidator.getById,

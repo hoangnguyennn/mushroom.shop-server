@@ -3,7 +3,6 @@ import { Router } from 'express';
 import catcherWrapper from '../../helpers/catcherWrapper';
 import OrderController from '../controllers/order.controller';
 import OrderValidator from '../../validations/order.validate';
-import orderController from '../controllers/order.controller';
 import AuthMiddleware from '../../middlewares/auth.middleware';
 import { UserType } from '../../interfaces/enums';
 
@@ -30,7 +29,15 @@ router.post(
   AuthMiddleware.checkAuth,
   AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
   OrderValidator.getById,
-  catcherWrapper(orderController.payOrder)
+  catcherWrapper(OrderController.payOrder)
+);
+
+router.post(
+  '/:id/update-status',
+  AuthMiddleware.checkAuth,
+  AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
+  OrderValidator.updateStatus,
+  catcherWrapper(OrderController.updateStatus)
 );
 
 export default router;

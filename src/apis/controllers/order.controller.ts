@@ -33,4 +33,11 @@ const payOrder = async (req: Request, res: Response) => {
   return success(res, order);
 };
 
-export default { create, getList, getById, payOrder };
+const updateStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const order = await OrderService.updateStatus(id, status);
+  return success(res, order);
+};
+
+export default { create, getList, getById, payOrder, updateStatus };

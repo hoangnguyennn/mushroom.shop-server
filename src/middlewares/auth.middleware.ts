@@ -46,12 +46,11 @@ const AuthMiddleware = {
 
   checkRole: (roles: UserType[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
-      const { userId, userType } = res.locals;
-
-      if (!userId) {
+      if (!req.user) {
         return notFound(next);
       }
 
+      const userType = req.user.userType;
       if (!roles.includes(userType)) {
         return forbidden(next);
       }

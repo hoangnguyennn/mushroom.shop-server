@@ -76,6 +76,19 @@ const OrderService = {
     }
 
     return mapOrderToResponse(order);
+  },
+  updateStatus: async (id: string, status: OrderStatus) => {
+    const order = await OrderModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { orderStatus: status } },
+      { new: true }
+    ).populate(orderPopulate);
+
+    if (!order) {
+      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+    }
+
+    return mapOrderToResponse(order);
   }
 };
 

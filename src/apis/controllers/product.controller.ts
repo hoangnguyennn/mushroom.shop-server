@@ -38,4 +38,18 @@ const getTrendingProducts = async (req: Request, res: Response) => {
   return success(res, products);
 };
 
-export default { create, getList, getById, update, getTrendingProducts };
+const updateStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const product = await ProductService.updateStatus(id, status);
+  return success(res, product);
+};
+
+export default {
+  create,
+  getList,
+  getById,
+  update,
+  getTrendingProducts,
+  updateStatus
+};

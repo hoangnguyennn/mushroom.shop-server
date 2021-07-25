@@ -6,6 +6,8 @@ import { mapProductToResponse } from '../helpers/mappingResponse';
 import ImageService from './image.service';
 import ProductModel from '../models/product.model';
 import { productPopulate } from '../helpers/mongoPopulate';
+import { ProductStatus } from '../interfaces/enums';
+import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 
 const ProductService = {
   create: async (productData: IProductRequest) => {
@@ -105,6 +107,19 @@ const ProductService = {
       .limit(8)
       .populate(productPopulate);
     return products.map(mapProductToResponse);
+  },
+  updateStatus: async (id: string, status: ProductStatus) => {
+    const product = await ProductModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { status } },
+      { new: true }
+    ).populate(productPopulate);
+
+    if (!product) {
+      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+    }
+
+    return mapProductToResponse(product);
   }
 };
 

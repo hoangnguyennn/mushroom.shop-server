@@ -20,7 +20,7 @@ export default async (app: Application) => {
 
   app.use(apiRoutes);
 
-  app.use((req, res, next) => notFound(next));
+  app.use((req, res, next) => notFound(next, `Endpoint ${req.url} not found`));
 
   app.use(handleError);
 };

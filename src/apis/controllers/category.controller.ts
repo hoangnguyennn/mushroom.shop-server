@@ -33,4 +33,10 @@ const update = async (req: Request, res: Response) => {
   return success(res, category);
 };
 
-export default { create, getList, getById, update };
+const getBySlug = async (req: Request, res: Response) => {
+  const { slug } = req.params;
+  const category = await CategoryService.getBySlug(slug);
+  return success(res, category);
+};
+
+export default { create, getList, getById, update, getBySlug };

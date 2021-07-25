@@ -38,4 +38,12 @@ router.put(
   catcherWrapper(ProductController.update)
 );
 
+router.post(
+  '/:id/update-status',
+  AuthMiddleware.checkAuth,
+  AuthMiddleware.checkRole([UserType.ADMIN, UserType.MANAGER]),
+  ProductValidator.updateStatus,
+  catcherWrapper(ProductController.updateStatus)
+);
+
 export default router;
