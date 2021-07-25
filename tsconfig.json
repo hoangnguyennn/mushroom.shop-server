@@ -3,6 +3,7 @@
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
+    "typeRoots": ["src/types", "node_modules/@types"],
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

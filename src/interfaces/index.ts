@@ -1,4 +1,5 @@
-import { ProductStatus, UserType } from './enums';
+import { PopulateOptions } from 'mongoose';
+import { OrderStatus, PaymentStatus, ProductStatus, UserType } from './enums';
 
 interface IResponse {
   id: string;
@@ -24,6 +25,66 @@ export interface IImageCreate {
 export interface IImageResponse extends IResponse {
   url: string;
   publicId: string;
+}
+
+export interface IOrderRequest {
+  deliveryEmail: string;
+  deliveryFullName: string;
+  deliveryPhone: string;
+  deliveryAddress: string;
+  paymentMethodId: string;
+  items: IOrderItemRequest[];
+}
+
+export interface IOrderCreate {
+  userId?: string;
+  deliveryEmail: string;
+  deliveryFullName: string;
+  deliveryPhone: string;
+  deliveryAddress: string;
+  deliveryDate?: number;
+  paymentMethodId: string;
+  paymentStatus: PaymentStatus;
+  orderDate: number;
+  orderStatus: OrderStatus;
+  itemsId: string[];
+}
+
+export interface IOrderResponse extends IResponse {
+  deliveryEmail: string;
+  deliveryFullName: string;
+  deliveryPhone: string;
+  deliveryAddress: string;
+  deliveryDate?: number;
+  paymentStatus: PaymentStatus;
+  orderDate: number;
+  orderStatus: OrderStatus;
+
+  user?: IUserResponse;
+  paymentMethod?: IPaymentMethodResponse;
+  items?: IOrderItemResponse[];
+}
+
+export interface IOrderItemRequest {
+  productId: string;
+  qty: number;
+}
+
+export interface IOrderItemCreate {
+  productId: string;
+  price: number;
+  qty: number;
+}
+
+export interface IOrderItemResponse extends IResponse {
+  price: number;
+  qty: number;
+  product?: IOrderItemProductResponse;
+}
+
+export interface IOrderItemProductResponse extends IResponse {
+  name: string;
+  image: string;
 }
 
 export interface IPayload {
@@ -109,3 +170,5 @@ export interface IUserResponse extends IResponse {
   address: string;
   userType: UserType;
 }
+
+export type IPopulateOptions = string | PopulateOptions | PopulateOptions[];

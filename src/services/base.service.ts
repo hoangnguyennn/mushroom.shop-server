@@ -1,11 +1,12 @@
 import { FilterQuery, Model, Document } from 'mongoose';
 import { HttpError, COMMON_MESSAGE } from '../helpers/commonResponse';
+import { IPopulateOptions } from '../interfaces';
 
-const create = async <T extends Document, D, N = any>(
+const create = async <T extends Document, D, N>(
   model: Model<T>,
   mapper: (doc: T) => N,
   data: D,
-  populate?: string
+  populate?: IPopulateOptions
 ) => {
   let documentCreated = await model.create(data);
   if (populate) {
@@ -15,7 +16,7 @@ const create = async <T extends Document, D, N = any>(
   return mapper(documentCreated);
 };
 
-const getList = async <T extends Document, N = any>(
+const getList = async <T extends Document, N>(
   model: Model<T>,
   mapper: (doc: T) => N,
   {
@@ -27,7 +28,7 @@ const getList = async <T extends Document, N = any>(
     skip?: number;
     filterQuery?: FilterQuery<T>;
   },
-  populate?: string
+  populate?: IPopulateOptions
 ) => {
   const query = filterQuery ? model.find(filterQuery) : model.find();
 
@@ -47,11 +48,11 @@ const getList = async <T extends Document, N = any>(
   return documents.map(mapper);
 };
 
-const getById = async <T extends Document, N = any>(
+const getById = async <T extends Document, N>(
   model: Model<T>,
   mapper: (doc: T) => N,
   id: string,
-  populate?: string
+  populate?: IPopulateOptions
 ) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
   const query = model.findOne(filterQuery);
@@ -68,12 +69,12 @@ const getById = async <T extends Document, N = any>(
   return mapper(document);
 };
 
-const update = async <T extends Document, D, N = any>(
+const update = async <T extends Document, D, N>(
   model: Model<T>,
   mapper: (doc: T) => N,
   id: string,
   data: D,
-  populate?: string
+  populate?: IPopulateOptions
 ) => {
   const filterQuery = { _id: id } as FilterQuery<T>;
   const query = model.findOneAndUpdate(filterQuery, data, {

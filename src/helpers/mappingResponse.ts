@@ -1,6 +1,8 @@
 import {
   ICategoryResponse,
   IImageResponse,
+  IOrderItemResponse,
+  IOrderResponse,
   IPaymentMethodResponse,
   IProductResponse,
   IProductUnitResponse,
@@ -9,6 +11,8 @@ import {
 import {
   ICategory,
   IImage,
+  IOrder,
+  IOrderItem,
   IPaymentMethod,
   IProduct,
   IProductUnit,
@@ -31,6 +35,39 @@ export const mapImageToResponse = (image: IImage): IImageResponse => {
     id: image._id,
     url: image.url,
     publicId: image.publicId
+  };
+};
+
+export const mapOrderToResponse = (order: IOrder): IOrderResponse => {
+  return {
+    id: order._id,
+    deliveryEmail: order.deliveryEmail,
+    deliveryFullName: order.deliveryFullName,
+    deliveryPhone: order.deliveryPhone,
+    deliveryAddress: order.deliveryAddress,
+    deliveryDate: order.deliveryDate?.getTime(),
+    paymentStatus: order.paymentStatus,
+    orderDate: order.orderDate.getTime(),
+    orderStatus: order.orderStatus,
+    user: order.user && mapUserToResponse(order.user),
+    paymentMethod:
+      order.paymentMethod && mapPaymentMethodToResponse(order.paymentMethod),
+    items: order.items && order.items.map(mapOrderItemToResponse)
+  };
+};
+
+export const mapOrderItemToResponse = (
+  orderItem: IOrderItem
+): IOrderItemResponse => {
+  return {
+    id: orderItem._id,
+    price: orderItem.price,
+    qty: orderItem.qty,
+    product: orderItem.product && {
+      id: orderItem.product._id,
+      name: orderItem.product.name,
+      image: orderItem.product.images?.[0].url || ''
+    }
   };
 };
 

@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { ProductStatus, UserType } from './enums';
+import { OrderStatus, PaymentStatus, ProductStatus, UserType } from './enums';
 
 export interface ICategory extends Document {
   name: string;
@@ -10,6 +10,32 @@ export interface ICategory extends Document {
 export interface IImage extends Document {
   url: string;
   publicId: string;
+}
+
+export interface IOrder extends Document {
+  userId?: Types.ObjectId;
+  deliveryEmail: string;
+  deliveryFullName: string;
+  deliveryPhone: string;
+  deliveryAddress: string;
+  deliveryDate?: Date;
+  paymentMethodId: Types.ObjectId;
+  paymentStatus: PaymentStatus;
+  orderDate: Date;
+  orderStatus: OrderStatus;
+  itemsId: Types.ObjectId;
+
+  user?: IUser;
+  paymentMethod?: IPaymentMethod;
+  items?: IOrderItem[];
+}
+
+export interface IOrderItem extends Document {
+  productId: Types.ObjectId;
+  price: number;
+  qty: number;
+
+  product?: IProduct;
 }
 
 export interface IPaymentMethod extends Document {
