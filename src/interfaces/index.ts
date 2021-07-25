@@ -31,6 +31,14 @@ export interface IPayload {
   userType: string;
 }
 
+export interface IPaymentMethodCreate {
+  name: string;
+}
+
+export interface IPaymentMethodResponse extends IResponse {
+  name: string;
+}
+
 export interface IProductRequest {
   name: string;
   price: number;

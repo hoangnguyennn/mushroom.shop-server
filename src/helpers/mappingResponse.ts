@@ -1,6 +1,7 @@
 import {
   ICategoryResponse,
   IImageResponse,
+  IPaymentMethodResponse,
   IProductResponse,
   IProductUnitResponse,
   IUserResponse
@@ -8,6 +9,7 @@ import {
 import {
   ICategory,
   IImage,
+  IPaymentMethod,
   IProduct,
   IProductUnit,
   IUser
@@ -29,6 +31,15 @@ export const mapImageToResponse = (image: IImage): IImageResponse => {
     id: image._id,
     url: image.url,
     publicId: image.publicId
+  };
+};
+
+export const mapPaymentMethodToResponse = (
+  paymentMethod: IPaymentMethod
+): IPaymentMethodResponse => {
+  return {
+    id: paymentMethod._id,
+    name: paymentMethod.name
   };
 };
 

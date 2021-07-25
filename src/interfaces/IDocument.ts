@@ -12,6 +12,10 @@ export interface IImage extends Document {
   publicId: string;
 }
 
+export interface IPaymentMethod extends Document {
+  name: string;
+}
+
 export interface IProduct extends Document {
   name: string;
   price: number;

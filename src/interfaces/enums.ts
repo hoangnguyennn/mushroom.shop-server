@@ -1,6 +1,7 @@
 export enum CollectionName {
   CATEGORY = 'categories',
   IMAGE = 'images',
+  PAYMENT_METHOD = 'paymentMethods',
   PRODUCT = 'products',
   PRODUCT_UNIT = 'productUnits',
   USER = 'users'
