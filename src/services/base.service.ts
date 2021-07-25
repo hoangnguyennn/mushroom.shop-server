@@ -1,6 +1,7 @@
 import { FilterQuery, Model, Document } from 'mongoose';
-import { HttpError, COMMON_MESSAGE } from '../helpers/commonResponse';
+import { HttpError } from '../helpers/commonResponse';
 import { IPopulateOptions } from '../interfaces';
+import { NOT_FOUND_FN } from '../helpers/commonMessage';
 
 const create = async <T extends Document, D, N>({
   model,
@@ -75,7 +76,7 @@ const getById = async <T extends Document, N>({
 
   const document = await query.exec();
   if (!document) {
-    throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+    throw new HttpError(NOT_FOUND_FN(model.modelName), 404);
   }
 
   return mapper(document);
@@ -105,7 +106,7 @@ const update = async <T extends Document, D, N>({
 
   const documentUpdated = await query.exec();
   if (!documentUpdated) {
-    throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+    throw new HttpError(NOT_FOUND_FN(model.modelName), 404);
   }
 
   return mapper(documentUpdated);

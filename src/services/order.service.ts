@@ -1,14 +1,15 @@
 import { FilterQuery } from 'mongoose';
 import { create, getById, getList } from './base.service';
+import { HttpError } from '../helpers/commonResponse';
 import { IOrder } from '../interfaces/IDocument';
 import { IOrderCreate, IOrderRequest } from '../interfaces';
 import { mapOrderToResponse } from '../helpers/mappingResponse';
+import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import { orderPopulate } from '../helpers/mongoPopulate';
 import { OrderStatus, PaymentStatus } from '../interfaces/enums';
 import OrderItemModel from '../models/orderItem.model';
 import OrderModel from '../models/order.model';
 import ProductService from './product.service';
-import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 
 const OrderService = {
   create: async (orderData: IOrderRequest, userId?: string) => {
@@ -72,7 +73,7 @@ const OrderService = {
     ).populate(orderPopulate);
 
     if (!order) {
-      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+      throw new HttpError(NOT_FOUND_FN(OrderModel.modelName), 404);
     }
 
     return mapOrderToResponse(order);
@@ -85,7 +86,7 @@ const OrderService = {
     ).populate(orderPopulate);
 
     if (!order) {
-      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+      throw new HttpError(NOT_FOUND_FN(OrderModel.modelName), 404);
     }
 
     return mapOrderToResponse(order);

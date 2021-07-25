@@ -1,5 +1,6 @@
-import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
+import { HttpError } from '../helpers/commonResponse';
 import { mapUserToResponse } from '../helpers/mappingResponse';
+import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import UserModel from '../models/user.model';
 
 const UserService = {
@@ -7,7 +8,7 @@ const UserService = {
     const user = await UserModel.findOne({ _id: id });
 
     if (!user) {
-      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
+      throw new HttpError(NOT_FOUND_FN(UserModel.modelName), 404);
     }
 
     return mapUserToResponse(user);
