@@ -1,17 +1,27 @@
-import { HttpError } from '../helpers/commonResponse';
+import { FilterQuery } from 'mongoose';
+import { getById, getList } from './base.service';
+import { IUser } from '../interfaces/IDocument';
 import { mapUserToResponse } from '../helpers/mappingResponse';
-import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import UserModel from '../models/user.model';
 
 const UserService = {
+  getList: async (query: {
+    limit?: number;
+    skip?: number;
+    filterQuery?: FilterQuery<IUser>;
+  }) => {
+    return getList({
+      model: UserModel,
+      mapper: mapUserToResponse,
+      query
+    });
+  },
   getById: async (id: string) => {
-    const user = await UserModel.findOne({ _id: id });
-
-    if (!user) {
-      throw new HttpError(NOT_FOUND_FN(UserModel.modelName), 404);
-    }
-
-    return mapUserToResponse(user);
+    return getById({
+      model: UserModel,
+      mapper: mapUserToResponse,
+      id
+    });
   }
 };
 
