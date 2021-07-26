@@ -24,6 +24,13 @@ router.get(
   catcherWrapper(OrderController.getById)
 );
 
+router.get(
+  '/:id/tracking',
+  AuthMiddleware.checkAuth,
+  OrderValidator.getOrderTracking,
+  catcherWrapper(OrderController.getOrderTracking)
+);
+
 router.post(
   '/:id/pay',
   AuthMiddleware.checkAuth,

@@ -94,6 +94,20 @@ export interface IOrderItemProductResponse extends IResponse {
   image: string;
 }
 
+export interface IOrderTrackingCreate {
+  orderId: string;
+  orderStatus: OrderStatus;
+  datetime: number;
+  description?: string;
+}
+
+export interface IOrderTrackingResponse extends IResponse {
+  orderId: string;
+  orderStatus: OrderStatus;
+  datetime: number;
+  description?: string;
+}
+
 export interface IPayload {
   userId: string;
   userType: UserType;

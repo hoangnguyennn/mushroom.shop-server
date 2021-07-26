@@ -3,6 +3,7 @@ import {
   IImageResponse,
   IOrderItemResponse,
   IOrderResponse,
+  IOrderTrackingResponse,
   IPaymentMethodResponse,
   IProductResponse,
   IProductUnitResponse,
@@ -14,6 +15,7 @@ import {
   IImage,
   IOrder,
   IOrderItem,
+  IOrderTracking,
   IPaymentMethod,
   IProduct,
   IProductUnit,
@@ -70,6 +72,18 @@ export const mapOrderItemToResponse = (
       name: orderItem.product.name,
       image: orderItem.product.images?.[0].url || ''
     }
+  };
+};
+
+export const mapOrderTrackingToResponse = (
+  orderTracking: IOrderTracking
+): IOrderTrackingResponse => {
+  return {
+    id: orderTracking._id,
+    orderId: orderTracking.orderId.toString(),
+    orderStatus: orderTracking.orderStatus,
+    datetime: orderTracking.datetime.getTime(),
+    description: orderTracking.description
   };
 };
 

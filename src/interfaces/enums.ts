@@ -3,11 +3,12 @@ export enum CollectionName {
   IMAGE = 'images',
   ORDER = 'orders',
   ORDER_ITEM = 'orderItems',
+  ORDER_TRACKING = 'orderTracking',
   PAYMENT_METHOD = 'paymentMethods',
   PRODUCT = 'products',
   PRODUCT_UNIT = 'productUnits',
-  USER = 'users',
-  TRACE_LOG = 'traceLogs'
+  TRACE_LOG = 'traceLogs',
+  USER = 'users'
 }
 
 export enum DatabaseAction {

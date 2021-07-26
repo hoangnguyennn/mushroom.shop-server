@@ -45,6 +45,13 @@ export interface IOrderItem extends Document {
   product?: IProduct;
 }
 
+export interface IOrderTracking extends Document {
+  orderId: Types.ObjectId;
+  orderStatus: OrderStatus;
+  datetime: Date;
+  description?: string;
+}
+
 export interface IPaymentMethod extends Document {
   name: string;
 }

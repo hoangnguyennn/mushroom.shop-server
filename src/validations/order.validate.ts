@@ -39,8 +39,15 @@ const updateStatus = celebrate({
   [Segments.BODY]: Joi.object().keys({
     status: Joi.string()
       .valid(...Object.values(OrderStatus))
-      .required()
+      .required(),
+    description: Joi.string()
   })
 });
 
-export default { create, getList, getById, updateStatus };
+const getOrderTracking = celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().pattern(OBJECT_ID_REGEX).required()
+  })
+});
+
+export default { create, getList, getById, updateStatus, getOrderTracking };
