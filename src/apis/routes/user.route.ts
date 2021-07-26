@@ -16,4 +16,11 @@ router.get(
   catcherWrapper(UserController.getList)
 );
 
+router.patch(
+  '/:id',
+  AuthMiddleware.checkAuth,
+  UserValidator.update,
+  catcherWrapper(UserController.update)
+);
+
 export default router;

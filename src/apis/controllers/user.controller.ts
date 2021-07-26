@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { success } from '../../helpers/commonResponse';
+import { IUserUpdateRequest } from '../../interfaces';
 import UserService from '../../services/user.service';
 
 const getList = async (req: Request, res: Response) => {
@@ -13,4 +14,11 @@ const getList = async (req: Request, res: Response) => {
   return success(res, users);
 };
 
-export default { getList };
+const update = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userData: IUserUpdateRequest = req.body;
+  const user = await UserService.update(id, userData);
+  return success(res, user);
+};
+
+export default { getList, update };

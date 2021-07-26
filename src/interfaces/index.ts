@@ -214,3 +214,9 @@ export interface IUserResponse extends IResponse {
 }
 
 export type IPopulateOptions = string | PopulateOptions | PopulateOptions[];
+
+export type IUserUpdateRequest = Partial<
+  Omit<ISignUp, 'email'> & { address: string }
+>;
+
+export type IUserUpdate = Partial<Omit<IUserCreate, 'email'>>;

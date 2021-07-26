@@ -276,3 +276,15 @@ export const normalize = (value: string) => {
     .map(char => mapping[char]?.normalize || char)
     .join('');
 };
+
+export const removeFalsyFields = <T = { [key: string]: any }>(object: T) => {
+  const result: { [key: string]: any } = {};
+
+  Object.entries(object).forEach(([key, value]) => {
+    if (value) {
+      result[key] = value;
+    }
+  });
+
+  return result;
+};

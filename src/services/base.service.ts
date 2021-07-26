@@ -1,4 +1,4 @@
-import { FilterQuery, Model, Document } from 'mongoose';
+import { FilterQuery, Model, Document, UpdateQuery } from 'mongoose';
 import { HttpError } from '../helpers/commonResponse';
 import { IPopulateOptions } from '../interfaces';
 import { NOT_FOUND_FN } from '../helpers/commonMessage';
@@ -96,7 +96,7 @@ const update = async <T extends Document, D, N>({
   mapper: (doc: T) => N;
   id: string;
   filterQuery?: FilterQuery<T>;
-  data: D;
+  data: UpdateQuery<T> | D;
   populate?: IPopulateOptions;
 }) => {
   const mongoQuery = { ...filterQuery, _id: id } as FilterQuery<T>;

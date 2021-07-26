@@ -1,8 +1,10 @@
-import { FilterQuery } from 'mongoose';
-import { getById, getList } from './base.service';
+import { FilterQuery, UpdateQuery } from 'mongoose';
+import { getById, getList, update } from './base.service';
 import { IUser } from '../interfaces/IDocument';
 import { mapUserToResponse } from '../helpers/mappingResponse';
 import UserModel from '../models/user.model';
+import { IUserUpdate, IUserUpdateRequest } from '../interfaces';
+import { removeFalsyFields } from '../utils';
 
 const UserService = {
   getList: async (query: {
@@ -21,6 +23,28 @@ const UserService = {
       model: UserModel,
       mapper: mapUserToResponse,
       id
+    });
+  },
+  update: async (id: string, userData: IUserUpdateRequest) => {
+    await UserService.getById(id);
+    const userUpdate: IUserUpdate = removeFalsyFields({
+      passwordHashed: userData.password,
+      fullName: userData.fullName,
+      phone: userData.phone,
+      address: userData.address
+    });
+
+    console.log(userUpdate);
+
+    const userUpdateQuery: UpdateQuery<IUser> = {
+      $set: userUpdate
+    };
+
+    return update({
+      model: UserModel,
+      mapper: mapUserToResponse,
+      id,
+      data: userUpdateQuery
     });
   }
 };

@@ -4,6 +4,7 @@ import cors from 'cors';
 import apiRoutes from '../apis/routes';
 import { notFound, handleError } from '../helpers/commonResponse';
 import logger from '../helpers/logger';
+import { errors } from 'celebrate';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -22,5 +23,6 @@ export default async (app: Application) => {
 
   app.use((req, res, next) => notFound(next, `Endpoint ${req.url} not found`));
 
+  app.use(errors());
   app.use(handleError);
 };
