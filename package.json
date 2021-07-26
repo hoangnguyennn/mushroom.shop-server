@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/hoangnguyennn/mushroom.shop-server#readme",
   "dependencies": {
+    "bcrypt": "5.0.1",
     "celebrate": "15.0.0",
     "cloudinary": "1.26.2",
     "cors": "2.8.5",
@@ -40,6 +41,7 @@
     "winston": "3.3.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "5.0.0",
     "@types/cors": "2.8.11",
     "@types/cron": "1.7.3",
     "@types/express": "4.17.13",

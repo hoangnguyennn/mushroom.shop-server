@@ -5,6 +5,7 @@ import { mapUserToResponse } from '../helpers/mappingResponse';
 import UserModel from '../models/user.model';
 import { IUserUpdate, IUserUpdateRequest } from '../interfaces';
 import { removeFalsyFields } from '../utils';
+import { getHashed } from '../utils/password';
 
 const UserService = {
   getList: async (query: {
@@ -28,7 +29,7 @@ const UserService = {
   update: async (id: string, userData: IUserUpdateRequest) => {
     await UserService.getById(id);
     const userUpdate: IUserUpdate = removeFalsyFields({
-      passwordHashed: userData.password,
+      passwordHashed: userData.password && (await getHashed(userData.password)),
       fullName: userData.fullName,
       phone: userData.phone,
       address: userData.address

@@ -5,11 +5,12 @@ import { mapUserToResponse } from '../helpers/mappingResponse';
 import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import { UserType } from '../interfaces/enums';
 import UserModel from '../models/user.model';
+import { compareHash, getHashed } from '../utils/password';
 
 const signUp = async (signUpData: ISignUp) => {
   const user: IUserCreate = {
     email: signUpData.email,
-    passwordHashed: signUpData.password,
+    passwordHashed: await getHashed(signUpData.password),
     fullName: signUpData.fullName,
     phone: signUpData.phone,
     address: '',
@@ -27,7 +28,8 @@ const signIn = async (signInData: ISignIn) => {
     throw new HttpError(NOT_FOUND_FN(UserModel.modelName), 404);
   }
 
-  if (user.passwordHashed !== signInData.password) {
+  const result = await compareHash(signInData.password, user.passwordHashed);
+  if (!result) {
     throw new HttpError(NOT_FOUND_FN(UserModel.modelName), 404);
   }
 
