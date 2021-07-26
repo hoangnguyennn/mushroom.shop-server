@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
+import { FilterQuery } from 'mongoose';
 import { success } from '../../helpers/commonResponse';
 import { IOrderRequest, ITraceLogCreate } from '../../interfaces';
-import { CollectionName, DatabaseAction } from '../../interfaces/enums';
+import {
+  CollectionName,
+  DatabaseAction,
+  UserType
+} from '../../interfaces/enums';
+import { IOrder } from '../../interfaces/IDocument';
 import OrderService from '../../services/order.service';
 import TraceLogService from '../../services/traceLog.service';
 
@@ -23,19 +29,35 @@ const create = async (req: Request, res: Response) => {
 };
 
 const getList = async (req: Request, res: Response) => {
+  const userId = req.user?.userId as string;
+  const userType = req.user?.userType;
   const page = Number(req.query.page);
   const pageSize = Number(req.query.pageSize);
 
+  const filterQuery: FilterQuery<IOrder> = {};
+  if (userType && ![UserType.ADMIN, UserType.MANAGER].includes(userType)) {
+    filterQuery._id = userId;
+  }
+
   const orders = await OrderService.getList({
     limit: pageSize,
-    skip: (page - 1) * pageSize
+    skip: (page - 1) * pageSize,
+    filterQuery
   });
   return success(res, orders);
 };
 
 const getById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const order = await OrderService.getById(id);
+  const userId = req.user?.userId as string;
+  const userType = req.user?.userType;
+
+  const filterQuery: FilterQuery<IOrder> = {};
+  if (userType && ![UserType.ADMIN, UserType.MANAGER].includes(userType)) {
+    filterQuery._id = userId;
+  }
+
+  const order = await OrderService.getById(id, filterQuery);
   return success(res, order);
 };
 

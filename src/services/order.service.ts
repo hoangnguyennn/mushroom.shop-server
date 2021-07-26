@@ -57,11 +57,12 @@ const OrderService = {
       populate: orderPopulate
     });
   },
-  getById: async (id: string) => {
+  getById: async (id: string, filterQuery?: FilterQuery<IOrder>) => {
     return getById({
       model: OrderModel,
       mapper: mapOrderToResponse,
       id,
+      filterQuery,
       populate: orderPopulate
     });
   },

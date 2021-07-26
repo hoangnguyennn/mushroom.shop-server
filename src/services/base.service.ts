@@ -60,15 +60,17 @@ const getById = async <T extends Document, N>({
   model,
   mapper,
   id,
+  filterQuery = {},
   populate
 }: {
   model: Model<T>;
   mapper: (doc: T) => N;
   id: string;
+  filterQuery?: FilterQuery<T>;
   populate?: IPopulateOptions;
 }) => {
-  const filterQuery = { _id: id } as FilterQuery<T>;
-  const query = model.findOne(filterQuery);
+  const mongoQuery = { ...filterQuery, _id: id } as FilterQuery<T>;
+  const query = model.findOne(mongoQuery);
 
   if (populate) {
     query.populate(populate);
@@ -86,17 +88,19 @@ const update = async <T extends Document, D, N>({
   model,
   mapper,
   id,
+  filterQuery = {},
   data,
   populate
 }: {
   model: Model<T>;
   mapper: (doc: T) => N;
   id: string;
+  filterQuery?: FilterQuery<T>;
   data: D;
   populate?: IPopulateOptions;
 }) => {
-  const filterQuery = { _id: id } as FilterQuery<T>;
-  const query = model.findOneAndUpdate(filterQuery, data, {
+  const mongoQuery = { ...filterQuery, _id: id } as FilterQuery<T>;
+  const query = model.findOneAndUpdate(mongoQuery, data, {
     new: true
   });
 
