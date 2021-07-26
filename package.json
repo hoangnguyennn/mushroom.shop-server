@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/hoangnguyennn/mushroom.shop-server#readme",
   "dependencies": {
-    "celebrate": "14.0.0",
+    "celebrate": "15.0.0",
     "cloudinary": "1.26.2",
     "cors": "2.8.5",
     "cron": "1.8.2",
