@@ -6,7 +6,14 @@ export enum CollectionName {
   PAYMENT_METHOD = 'paymentMethods',
   PRODUCT = 'products',
   PRODUCT_UNIT = 'productUnits',
-  USER = 'users'
+  USER = 'users',
+  TRACE_LOG = 'traceLogs'
+}
+
+export enum DatabaseAction {
+  CREATE = 'CREATE',
+  DELETE = 'DELETE',
+  UPDATE = 'UPDATE'
 }
 
 export enum OrderStatus {

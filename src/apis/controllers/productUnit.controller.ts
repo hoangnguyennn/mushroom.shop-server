@@ -1,11 +1,24 @@
 import { Request, Response } from 'express';
 import { success } from '../../helpers/commonResponse';
-import { IProductUnitCreate } from '../../interfaces';
+import { IProductUnitCreate, ITraceLogCreate } from '../../interfaces';
+import { CollectionName, DatabaseAction } from '../../interfaces/enums';
 import ProductUnitService from '../../services/productUnit.service';
+import TraceLogService from '../../services/traceLog.service';
 
 const create = async (req: Request, res: Response) => {
   const productUnitData: IProductUnitCreate = req.body;
   const productUnit = await ProductUnitService.create(productUnitData);
+  const userId = req.user?.userId as string;
+  const traceLog: ITraceLogCreate = {
+    userId: userId,
+    modelName: CollectionName.PRODUCT_UNIT,
+    victimId: productUnit.id,
+    victim: productUnit,
+    action: DatabaseAction.CREATE,
+    description: 'Add a new product unit',
+    time: Date.now()
+  };
+  await TraceLogService.create(traceLog);
   return success(res, productUnit);
 };
 
@@ -30,6 +43,17 @@ const update = async (req: Request, res: Response) => {
   const { id } = req.params;
   const productUnitData: IProductUnitCreate = req.body;
   const productUnit = await ProductUnitService.update(id, productUnitData);
+  const userId = req.user?.userId as string;
+  const traceLog: ITraceLogCreate = {
+    userId: userId,
+    modelName: CollectionName.PRODUCT,
+    victimId: productUnit.id,
+    victim: productUnit,
+    action: DatabaseAction.UPDATE,
+    description: 'Update product unit',
+    time: Date.now()
+  };
+  await TraceLogService.create(traceLog);
   return success(res, productUnit);
 };
 

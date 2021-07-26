@@ -1,11 +1,24 @@
 import { Request, Response } from 'express';
 import { success } from '../../helpers/commonResponse';
-import { IPaymentMethodCreate } from '../../interfaces';
+import { IPaymentMethodCreate, ITraceLogCreate } from '../../interfaces';
+import { CollectionName, DatabaseAction } from '../../interfaces/enums';
 import PaymentMethodService from '../../services/paymentMethod.service';
+import TraceLogService from '../../services/traceLog.service';
 
 const create = async (req: Request, res: Response) => {
   const paymentMethodData: IPaymentMethodCreate = req.body;
   const paymentMethod = await PaymentMethodService.create(paymentMethodData);
+  const userId = req.user?.userId as string;
+  const traceLog: ITraceLogCreate = {
+    userId: userId,
+    modelName: CollectionName.PAYMENT_METHOD,
+    victimId: paymentMethod.id,
+    victim: paymentMethod,
+    action: DatabaseAction.CREATE,
+    description: 'Create a new payment method',
+    time: Date.now()
+  };
+  await TraceLogService.create(traceLog);
   return success(res, paymentMethod);
 };
 
@@ -33,6 +46,17 @@ const update = async (req: Request, res: Response) => {
     id,
     paymentMethodData
   );
+  const userId = req.user?.userId as string;
+  const traceLog: ITraceLogCreate = {
+    userId: userId,
+    modelName: CollectionName.PAYMENT_METHOD,
+    victimId: paymentMethod.id,
+    victim: paymentMethod,
+    action: DatabaseAction.UPDATE,
+    description: 'Update payment method',
+    time: Date.now()
+  };
+  await TraceLogService.create(traceLog);
   return success(res, paymentMethod);
 };
 

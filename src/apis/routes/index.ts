@@ -7,6 +7,7 @@ import orderRoute from './order.route';
 import paymentMethodRoute from './paymentMethod.route';
 import productRoute from './product.route';
 import productUnitRoute from './productUnit.route';
+import traceLogRoute from './traceLog.route';
 import uploadRoute from './upload.route';
 import userRoute from './user.route';
 import AuthMiddleware from '../../middlewares/auth.middleware';
@@ -22,6 +23,7 @@ router.use('/orders', orderRoute);
 router.use('/payment-methods', paymentMethodRoute);
 router.use('/product-units', productUnitRoute);
 router.use('/products', productRoute);
+router.use('/trace-logs', traceLogRoute);
 router.use('/upload', uploadRoute);
 router.use('/users', userRoute);
 

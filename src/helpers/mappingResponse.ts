@@ -6,6 +6,7 @@ import {
   IPaymentMethodResponse,
   IProductResponse,
   IProductUnitResponse,
+  ITraceLogResponse,
   IUserResponse
 } from '../interfaces';
 import {
@@ -16,6 +17,7 @@ import {
   IPaymentMethod,
   IProduct,
   IProductUnit,
+  ITraceLog,
   IUser
 } from '../interfaces/IDocument';
 
@@ -100,6 +102,21 @@ export const mapProductUnitToResponse = (
   return {
     id: productUnit._id,
     name: productUnit.name
+  };
+};
+
+export const mapTraceLogToResponse = (
+  traceLog: ITraceLog
+): ITraceLogResponse => {
+  return {
+    id: traceLog._id,
+    modelName: traceLog.modelName,
+    victimId: traceLog.victimId.toString(),
+    victim: traceLog.victim,
+    action: traceLog.action,
+    description: traceLog.description,
+    time: traceLog.time.getTime(),
+    user: traceLog.user && mapUserToResponse(traceLog.user)
   };
 };
 

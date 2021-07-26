@@ -1,5 +1,12 @@
 import { PopulateOptions } from 'mongoose';
-import { OrderStatus, PaymentStatus, ProductStatus, UserType } from './enums';
+import {
+  CollectionName,
+  DatabaseAction,
+  OrderStatus,
+  PaymentStatus,
+  ProductStatus,
+  UserType
+} from './enums';
 
 interface IResponse {
   id: string;
@@ -151,6 +158,27 @@ export interface ISignUp {
   password: string;
   fullName: string;
   phone: string;
+}
+
+export interface ITraceLogCreate {
+  userId: string;
+  modelName: CollectionName;
+  victimId: string;
+  victim: { [key: string]: any };
+  action: DatabaseAction;
+  description: string;
+  time: number;
+}
+
+export interface ITraceLogResponse extends IResponse {
+  modelName: CollectionName;
+  victimId: string;
+  victim: { [key: string]: any };
+  action: DatabaseAction;
+  description: string;
+  time: number;
+
+  user?: IUserResponse;
 }
 
 export interface IUserCreate {

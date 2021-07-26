@@ -1,11 +1,25 @@
 import { Request, Response } from 'express';
 import { success } from '../../helpers/commonResponse';
-import { ICategoryCreate } from '../../interfaces';
+import { ICategoryCreate, ITraceLogCreate } from '../../interfaces';
+import { CollectionName, DatabaseAction } from '../../interfaces/enums';
 import CategoryService from '../../services/category.service';
+import TraceLogService from '../../services/traceLog.service';
 
 const create = async (req: Request, res: Response) => {
   const categoryData: ICategoryCreate = req.body;
   const category = await CategoryService.create(categoryData);
+
+  const userId = req.user?.userId as string;
+  const traceLog: ITraceLogCreate = {
+    userId: userId,
+    modelName: CollectionName.CATEGORY,
+    victimId: category.id,
+    victim: category,
+    action: DatabaseAction.CREATE,
+    description: 'Add a new category',
+    time: Date.now()
+  };
+  await TraceLogService.create(traceLog);
   return success(res, category);
 };
 
@@ -30,6 +44,18 @@ const update = async (req: Request, res: Response) => {
   const { id } = req.params;
   const categoryData: ICategoryCreate = req.body;
   const category = await CategoryService.update(id, categoryData);
+
+  const userId = req.user?.userId as string;
+  const traceLog: ITraceLogCreate = {
+    userId: userId,
+    modelName: CollectionName.CATEGORY,
+    victimId: category.id,
+    victim: category,
+    action: DatabaseAction.UPDATE,
+    description: 'Update category',
+    time: Date.now()
+  };
+  await TraceLogService.create(traceLog);
   return success(res, category);
 };
 

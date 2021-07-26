@@ -1,5 +1,12 @@
 import { Document, Types } from 'mongoose';
-import { OrderStatus, PaymentStatus, ProductStatus, UserType } from './enums';
+import {
+  CollectionName,
+  DatabaseAction,
+  OrderStatus,
+  PaymentStatus,
+  ProductStatus,
+  UserType
+} from './enums';
 
 export interface ICategory extends Document {
   name: string;
@@ -60,6 +67,18 @@ export interface IProduct extends Document {
 
 export interface IProductUnit extends Document {
   name: string;
+}
+
+export interface ITraceLog extends Document {
+  userId: Types.ObjectId;
+  modelName: CollectionName;
+  victimId: Types.ObjectId;
+  victim: { [key: string]: any };
+  action: DatabaseAction;
+  description: string;
+  time: Date;
+
+  user?: IUser;
 }
 
 export interface IUser extends Document {

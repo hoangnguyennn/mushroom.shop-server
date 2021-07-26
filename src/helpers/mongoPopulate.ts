@@ -1,7 +1,5 @@
 import { IPopulateOptions } from '../interfaces';
 
-export const productPopulate: IPopulateOptions = 'unit images category';
-
 export const orderPopulate: IPopulateOptions = [
   { path: 'user' },
   { path: 'paymentMethod' },
@@ -10,3 +8,7 @@ export const orderPopulate: IPopulateOptions = [
     populate: { path: 'product', populate: { path: 'images' } }
   }
 ];
+
+export const productPopulate: IPopulateOptions = 'unit images category';
+
+export const traceLogPopulate: IPopulateOptions = 'user';
