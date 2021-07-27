@@ -4,6 +4,7 @@ import { IProductRequest, ITraceLogCreate } from '../../interfaces';
 import { CollectionName, DatabaseAction } from '../../interfaces/enums';
 import ProductService from '../../services/product.service';
 import TraceLogService from '../../services/traceLog.service';
+import { productQueryToMongoFilter } from '../../helpers/mapQueryToMongoFilter';
 
 const create = async (req: Request, res: Response) => {
   const productData: IProductRequest = req.body;
@@ -25,10 +26,12 @@ const create = async (req: Request, res: Response) => {
 const getList = async (req: Request, res: Response) => {
   const page = Number(req.query.page);
   const pageSize = Number(req.query.pageSize);
+  const filterQuery = productQueryToMongoFilter(req.query);
 
   const products = await ProductService.getList({
     limit: pageSize,
-    skip: (page - 1) * pageSize
+    skip: (page - 1) * pageSize,
+    filterQuery
   });
   return success(res, products);
 };
