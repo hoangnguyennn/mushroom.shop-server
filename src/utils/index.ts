@@ -288,3 +288,39 @@ export const removeFalsyFields = <T = { [key: string]: any }>(object: T) => {
 
   return result;
 };
+
+export const startOfDate = (date?: Date | number) => {
+  let newDate = new Date();
+
+  if (typeof date === 'number') {
+    newDate = new Date(date);
+  }
+
+  if (date instanceof Date) {
+    newDate = date;
+  }
+
+  const years = newDate.getFullYear();
+  const months = newDate.getMonth();
+  const dates = newDate.getDate();
+
+  return new Date(years, months, dates);
+};
+
+export const endOfDate = (date?: Date | number) => {
+  let newDate = new Date();
+
+  if (typeof date === 'number') {
+    newDate = new Date(date);
+  }
+
+  if (date instanceof Date) {
+    newDate = date;
+  }
+
+  const years = newDate.getFullYear();
+  const months = newDate.getMonth();
+  const dates = newDate.getDate();
+
+  return new Date(years, months, dates + 1);
+};
