@@ -18,5 +18,7 @@ export default {
   mailtrapPort: String(process.env.MAILTRAP_PORT),
   mailtrapUser: String(process.env.MAILTRAP_USER),
   mailtrapPass: String(process.env.MAILTRAP_PASS),
-  maxOfSalt: Number(process.env.MAX_OF_SALT)
+  maxOfSalt: Number(process.env.MAX_OF_SALT),
+  sendGridApiKey: String(process.env.SENDGRID_API_KEY),
+  sendGridEmail: String(process.env.SENDGRID_EMAIL)
 };

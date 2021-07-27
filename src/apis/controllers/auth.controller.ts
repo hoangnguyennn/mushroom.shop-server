@@ -4,10 +4,15 @@ import { ISignIn, ISignUp } from '../../interfaces';
 import { success, unauthorized } from '../../helpers/commonResponse';
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
+import MailerService from '../../services/mailler.service';
 
 const signUp = async (req: Request, res: Response) => {
   const signUpData: ISignUp = req.body;
   const user = await AuthService.signUp(signUpData);
+  await MailerService.sendWelcomeMail({
+    email: user.email,
+    fullName: user.fullName
+  });
   return success(res, user);
 };
 
