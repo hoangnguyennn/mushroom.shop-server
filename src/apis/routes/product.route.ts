@@ -22,7 +22,7 @@ router.post(
   catcherWrapper(ProductController.create)
 );
 
-router.get('/trendings', catcherWrapper(ProductController.getTrendingProducts));
+router.get('/trending', catcherWrapper(ProductController.getTrendingProducts));
 
 router.get(
   '/:id',
