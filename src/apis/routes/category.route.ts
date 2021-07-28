@@ -30,6 +30,12 @@ router.get(
   catcherWrapper(CategoryController.getById)
 );
 
+router.get(
+  '/:id/products',
+  CategoryValidator.getProductsByCategoryId,
+  catcherWrapper(CategoryController.getProductsByCategoryId)
+);
+
 router.put(
   '/:id',
   AuthMiddleware.checkAuth,

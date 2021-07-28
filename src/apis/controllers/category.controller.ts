@@ -3,6 +3,7 @@ import { success } from '../../helpers/commonResponse';
 import { ICategoryCreate, ITraceLogCreate } from '../../interfaces';
 import { CollectionName, DatabaseAction } from '../../interfaces/enums';
 import CategoryService from '../../services/category.service';
+import ProductService from '../../services/product.service';
 import TraceLogService from '../../services/traceLog.service';
 
 const create = async (req: Request, res: Response) => {
@@ -65,4 +66,23 @@ const getBySlug = async (req: Request, res: Response) => {
   return success(res, category);
 };
 
-export default { create, getList, getById, update, getBySlug };
+const getProductsByCategoryId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const page = Number(req.query.page);
+  const pageSize = Number(req.query.pageSize);
+  const products = await ProductService.getList({
+    limit: pageSize,
+    skip: (page - 1) * pageSize,
+    filterQuery: { categoryId: id }
+  });
+  return success(res, products);
+};
+
+export default {
+  create,
+  getList,
+  getById,
+  update,
+  getBySlug,
+  getProductsByCategoryId
+};

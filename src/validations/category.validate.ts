@@ -34,4 +34,14 @@ const update = celebrate({
   })
 });
 
-export default { create, getList, getById, update };
+const getProductsByCategoryId = celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().pattern(OBJECT_ID_REGEX).required()
+  }),
+  [Segments.QUERY]: Joi.object().keys({
+    page: Joi.number().min(1),
+    pageSize: Joi.number().min(1)
+  })
+});
+
+export default { create, getList, getById, update, getProductsByCategoryId };
