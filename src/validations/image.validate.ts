@@ -3,17 +3,21 @@ import { OBJECT_ID_REGEX } from '../constants';
 import { IImageCreate } from '../interfaces';
 
 const create = celebrate({
-  [Segments.BODY]: Joi.object<IImageCreate>().keys({
-    url: Joi.string().uri().required(),
-    publicId: Joi.string().required()
-  })
+  [Segments.BODY]: Joi.object<IImageCreate>()
+    .keys({
+      url: Joi.string().uri().required(),
+      publicId: Joi.string().required()
+    })
+    .unknown(true)
 });
 
 const getList = celebrate({
-  [Segments.QUERY]: Joi.object().keys({
-    page: Joi.number().min(1),
-    pageSize: Joi.number().min(1)
-  })
+  [Segments.QUERY]: Joi.object()
+    .keys({
+      page: Joi.number().min(1),
+      pageSize: Joi.number().min(1)
+    })
+    .unknown(true)
 });
 
 const getById = celebrate({

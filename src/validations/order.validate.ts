@@ -4,26 +4,30 @@ import { IOrderItemRequest, IOrderRequest } from '../interfaces';
 import { OrderStatus } from '../interfaces/enums';
 
 const create = celebrate({
-  [Segments.BODY]: Joi.object<IOrderRequest>().keys({
-    deliveryEmail: Joi.string().email().required(),
-    deliveryFullName: Joi.string().required(),
-    deliveryPhone: Joi.string().required(),
-    deliveryAddress: Joi.string().required(),
-    paymentMethodId: Joi.string().pattern(OBJECT_ID_REGEX).required(),
-    items: Joi.array().items(
-      Joi.object<IOrderItemRequest>().keys({
-        productId: Joi.string().pattern(OBJECT_ID_REGEX).required(),
-        qty: Joi.number().min(1).required()
-      })
-    )
-  })
+  [Segments.BODY]: Joi.object<IOrderRequest>()
+    .keys({
+      deliveryEmail: Joi.string().email().required(),
+      deliveryFullName: Joi.string().required(),
+      deliveryPhone: Joi.string().required(),
+      deliveryAddress: Joi.string().required(),
+      paymentMethodId: Joi.string().pattern(OBJECT_ID_REGEX).required(),
+      items: Joi.array().items(
+        Joi.object<IOrderItemRequest>().keys({
+          productId: Joi.string().pattern(OBJECT_ID_REGEX).required(),
+          qty: Joi.number().min(1).required()
+        })
+      )
+    })
+    .unknown(true)
 });
 
 const getList = celebrate({
-  [Segments.QUERY]: Joi.object().keys({
-    page: Joi.number().min(1),
-    pageSize: Joi.number().min(1)
-  })
+  [Segments.QUERY]: Joi.object()
+    .keys({
+      page: Joi.number().min(1),
+      pageSize: Joi.number().min(1)
+    })
+    .unknown(true)
 });
 
 const getById = celebrate({
@@ -36,12 +40,14 @@ const updateStatus = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.string().pattern(OBJECT_ID_REGEX).required()
   }),
-  [Segments.BODY]: Joi.object().keys({
-    status: Joi.string()
-      .valid(...Object.values(OrderStatus))
-      .required(),
-    description: Joi.string()
-  })
+  [Segments.BODY]: Joi.object()
+    .keys({
+      status: Joi.string()
+        .valid(...Object.values(OrderStatus))
+        .required(),
+      description: Joi.string()
+    })
+    .unknown(true)
 });
 
 const getOrderTracking = celebrate({
