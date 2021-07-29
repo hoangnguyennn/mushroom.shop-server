@@ -9,8 +9,7 @@ const categorySchema = new Schema<ICategory>({
     unique: true
   },
   description: {
-    type: String,
-    unique: true
+    type: String
   },
   slug: {
     type: String,

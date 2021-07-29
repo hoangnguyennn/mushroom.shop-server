@@ -13,7 +13,7 @@ const create = celebrate({
       status: Joi.string()
         .valid(...Object.values(ProductStatus))
         .required(),
-      imagesId: Joi.array()
+      images: Joi.array()
         .items(
           Joi.object().keys({
             id: Joi.string().pattern(OBJECT_ID_REGEX).required()
@@ -58,7 +58,7 @@ const update = celebrate({
       status: Joi.string()
         .valid(...Object.values(ProductStatus))
         .required(),
-      imagesId: Joi.array()
+      images: Joi.array()
         .items(
           Joi.object().keys({
             id: Joi.string().pattern(OBJECT_ID_REGEX).required()

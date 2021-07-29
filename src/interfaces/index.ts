@@ -127,7 +127,7 @@ export interface IProductRequest {
   unitId: string;
   description: string;
   status: ProductStatus;
-  imagesId: ({ id: string } | IImageCreate)[];
+  images: ({ id: string } | IImageCreate)[];
   categoryId: string;
   longDescription: string;
 }

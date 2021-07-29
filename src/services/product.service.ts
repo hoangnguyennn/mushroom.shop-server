@@ -14,7 +14,7 @@ const ProductService = {
   create: async (productData: IProductRequest) => {
     const oldImages: string[] = [];
     const newImages: IImageCreate[] = [];
-    productData.imagesId.forEach((image: any) => {
+    productData.images.forEach((image: any) => {
       if (image.id) {
         oldImages.push(image.id);
       } else {
@@ -69,7 +69,7 @@ const ProductService = {
   update: async (id: string, productData: IProductRequest) => {
     const oldImages: string[] = [];
     const newImages: IImageCreate[] = [];
-    productData.imagesId.forEach((image: any) => {
+    productData.images.forEach((image: any) => {
       if (image.id) {
         oldImages.push(image.id);
       } else {
