@@ -1,10 +1,9 @@
 import { FilterQuery } from 'mongoose';
 import { create, getList, getById, update } from './base.service';
-import { HttpError } from '../helpers/commonResponse';
+import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 import { IImageCreate, IProductCreate, IProductRequest } from '../interfaces';
 import { IProduct } from '../interfaces/IDocument';
 import { mapProductToResponse } from '../helpers/mappingResponse';
-import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import { productPopulate } from '../helpers/mongoPopulate';
 import { ProductStatus } from '../interfaces/enums';
 import ImageService from './image.service';
@@ -117,7 +116,7 @@ const ProductService = {
     ).populate(productPopulate);
 
     if (!product) {
-      throw new HttpError(NOT_FOUND_FN(ProductModel.modelName), 404);
+      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
     }
 
     return mapProductToResponse(product);

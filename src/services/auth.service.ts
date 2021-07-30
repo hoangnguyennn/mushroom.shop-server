@@ -1,8 +1,7 @@
 import { generateToken } from '../utils/token';
-import { HttpError } from '../helpers/commonResponse';
+import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 import { IPayload, ISignIn, ISignUp, IUserCreate } from '../interfaces';
 import { mapUserToResponse } from '../helpers/mappingResponse';
-import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import { UserType } from '../interfaces/enums';
 import UserModel from '../models/user.model';
 import { compareHash, getHashed } from '../utils/password';
@@ -25,12 +24,12 @@ const signIn = async (signInData: ISignIn) => {
   const user = await UserModel.findOne({ email: signInData.email });
 
   if (!user) {
-    throw new HttpError(NOT_FOUND_FN(UserModel.modelName), 404);
+    throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
   }
 
   const result = await compareHash(signInData.password, user.passwordHashed);
   if (!result) {
-    throw new HttpError(NOT_FOUND_FN(UserModel.modelName), 404);
+    throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
   }
 
   const payload: IPayload = {

@@ -1,10 +1,9 @@
 import { FilterQuery } from 'mongoose';
 import { create, getList, getById, update } from './base.service';
-import { HttpError } from '../helpers/commonResponse';
+import { COMMON_MESSAGE, HttpError } from '../helpers/commonResponse';
 import { ICategory } from '../interfaces/IDocument';
 import { ICategoryCreate } from '../interfaces';
 import { mapCategoryToResponse } from '../helpers/mappingResponse';
-import { NOT_FOUND_FN } from '../helpers/commonMessage';
 import CategoryModel from '../models/category.model';
 
 const CategoryService = {
@@ -55,7 +54,7 @@ const CategoryService = {
     const category = await CategoryModel.findOne({ slug });
 
     if (!category) {
-      throw new HttpError(NOT_FOUND_FN(CategoryModel.modelName), 404);
+      throw new HttpError(COMMON_MESSAGE.NOT_FOUND, 404);
     }
 
     return mapCategoryToResponse(category);
