@@ -35,8 +35,6 @@ const UserService = {
       address: userData.address
     });
 
-    console.log(userUpdate);
-
     const userUpdateQuery: UpdateQuery<IUser> = {
       $set: userUpdate
     };

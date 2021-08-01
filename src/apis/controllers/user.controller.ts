@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { success } from '../../helpers/commonResponse';
+import { NextFunction, Request, Response } from 'express';
+import { forbidden, success } from '../../helpers/commonResponse';
 import { IUserUpdateRequest } from '../../interfaces';
 import UserService from '../../services/user.service';
 
@@ -14,8 +14,14 @@ const getList = async (req: Request, res: Response) => {
   return success(res, users);
 };
 
-const update = async (req: Request, res: Response) => {
+const update = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  const userId = req.user?.userId;
+
+  if (userId !== id) {
+    return forbidden(next);
+  }
+
   const userData: IUserUpdateRequest = req.body;
   const user = await UserService.update(id, userData);
   return success(res, user);
