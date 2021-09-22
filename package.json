@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/hoangnguyennn/mushroom.shop-server#readme",
   "dependencies": {
-    "@sendgrid/mail": "7.4.5",
+    "@sendgrid/mail": "7.4.7",
     "bcrypt": "5.0.1",
     "celebrate": "15.0.0",
     "cloudinary": "1.26.3",
